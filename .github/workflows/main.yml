@@ -1,0 +1,53 @@
+# This is a sample workflow file for creating the specified directories and files
+
+name: Create Directories and Files
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  create_files:
+    name: Create Directories and Files
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Create Directories
+      run: |
+        mkdir bash c js
+
+    - name: Create Files
+      run: |
+        touch c/c_is_fun.c js/main.js js/index.js
+        touch bash/alx bash/school
+
+    - name: Add content to files
+      run: |
+        echo "#!/bin/bash" > bash/alx
+        echo "echo \"ALX\"" >> bash/alx
+  
+        echo "#!/bin/bash" > bash/school
+        echo "echo \"School\"" >> bash/school
+
+    - name: Add changes to git
+      run: |
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+        git add .
+
+    - name: Commit changes
+      run: |
+        git commit -m "Starting to code today, so cool"
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{  RohanSewrajAPIToken2 }}
+        branch: main
